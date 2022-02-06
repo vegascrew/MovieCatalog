@@ -14,5 +14,9 @@ public class MovieResource {
     public Movie getMovieInfo(@PathVariable("movieId") String movieId) {
         return new Movie(movieId, "Name for ID " + movieId);
     }
+    /*
+    http://localhost:8082/movies/harshit
+     Sample Response : {"movieId":"harshit","name":"Name for ID harshit"}
+    */
 }
 

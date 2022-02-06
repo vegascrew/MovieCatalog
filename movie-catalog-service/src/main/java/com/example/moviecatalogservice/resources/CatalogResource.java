@@ -46,6 +46,13 @@ public class CatalogResource {
                 })
                 .collect(Collectors.toList());
     }
+
+    /*
+    get : http://localhost:8081/catalog/harshit
+    Sample Response : [{"name":"Name for ID 1234","desc":"Description","rating":3},{"name":"Name for ID 5678","desc":"Description","rating":4}]
+    */
+}
+
 /*
 Alternative WebClient Way. Reactive side.
 Movie movie = webClientBuilder.build()
@@ -55,4 +62,3 @@ Movie movie = webClientBuilder.build()
                .bodyToMono(Movie.class)
                .block();
 */
-}
