@@ -3,6 +3,7 @@ package com.example.moviecatalogservice.resources;
 import com.example.moviecatalogservice.models.CatalogItem;
 import com.example.moviecatalogservice.models.Movie;
 import com.example.moviecatalogservice.models.Rating;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +18,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/catalog")
 public class CatalogResource {
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @RequestMapping("/{userId}")
     public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
         //1. Get all rated movie id
         //2. For each movie id, call movie info service and get details
         //3. Put them all together
-        RestTemplate restTemplate = new RestTemplate();  // https://stackoverflow.com/questions/4721279/please-explain-resttemplate
 
         List<Rating> ratings = Arrays.asList(
                 new Rating("1234", 4),
