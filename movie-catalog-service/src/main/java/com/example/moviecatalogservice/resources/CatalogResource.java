@@ -1,10 +1,12 @@
 package com.example.moviecatalogservice.resources;
 
 import com.example.moviecatalogservice.models.CatalogItem;
+import com.example.moviecatalogservice.models.Movie;
 import com.example.moviecatalogservice.models.Rating;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,12 +22,18 @@ public class CatalogResource {
         //1. Get all rated movie id
         //2. For each movie id, call movie info service and get details
         //3. Put them all together
+        RestTemplate restTemplate = new RestTemplate();  // https://stackoverflow.com/questions/4721279/please-explain-resttemplate
+
         List<Rating> ratings = Arrays.asList(
                 new Rating("1234", 4),
                 new Rating("5678", 3)
         );
         return ratings.stream()
-                .map(rating -> new CatalogItem("Test", "Test Desc", 4))
+                .map(rating -> {
+                    //return response is string, unmarshalling of response to Movie object.
+                    Movie movie = restTemplate.getForObject("http://localhost:8082/movies/"+rating.getMovieId(), Movie.class);
+                    return new CatalogItem(movie.getName(), "Description", rating.getRating());
+                })
                 .collect(Collectors.toList());
     }
 }
